@@ -4,15 +4,12 @@ import os
 
 app = Flask(__name__)
 
-# SQLite database
 DATABASE = os.path.join(os.path.dirname(__file__), "students.db")
 
 def get_db_connection():
     conn = sqlite3.connect(DATABASE)
     conn.row_factory = sqlite3.Row
     return conn
-
-# CREATE - Add Student
 @app.route('/students', methods=['POST'])
 def add_student():
     data = request.get_json()
@@ -30,7 +27,6 @@ def add_student():
         "message": "Student added successfully"
     }), 201
 
-# READ - Get All Students
 @app.route('/students', methods=['GET'])
 def get_students():
     conn = get_db_connection()
@@ -48,7 +44,6 @@ def get_students():
         })
     return jsonify(result), 200
 
-# UPDATE - Update Student
 @app.route('/students/<int:id>', methods=['PUT'])
 def update_student(id):
     data = request.get_json()
@@ -67,8 +62,6 @@ def update_student(id):
     return jsonify({
         "message": "Student updated successfully"
     }), 200
-
-# DELETE - Delete Student
 @app.route('/students/<int:id>', methods=['DELETE'])
 def delete_student(id):
     conn = get_db_connection()
